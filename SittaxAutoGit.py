@@ -22,7 +22,6 @@ def get_latest_release_exe_link(repo_owner, repo_name):
                 print(f"Date: {created_at}")
                 print(f"Exe Download Link: {exe_url}")
                 
-                # Executar o wget diretamente
                 comando = ["wget", exe_url]
                 resultado = subprocess.run(comando, capture_output=True, text=True)
                 
