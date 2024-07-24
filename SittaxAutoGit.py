@@ -1,5 +1,5 @@
 import requests
-import os
+import subprocess
 
 def get_latest_release_exe_link(repo_owner, repo_name):
     url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/releases"
@@ -22,13 +22,12 @@ def get_latest_release_exe_link(repo_owner, repo_name):
                 print(f"Date: {created_at}")
                 print(f"Exe Download Link: {exe_url}")
                 
-                script_content = f"#!/bin/bash\n\nwget {exe_url}\n"
-                script_filename = "download_exe.sh"
+                # Executar o wget diretamente
+                comando = ["wget", exe_url]
+                resultado = subprocess.run(comando, capture_output=True, text=True)
                 
-                with open(script_filename, 'w') as script_file:
-                    script_file.write(script_content)
-                
-                print(f"Script '{script_filename}' created successfully.")
+                print("Saída do comando:", resultado.stdout)
+                print("Erros (se houver):", resultado.stderr)
             else:
                 print("No .exe file found in the latest release.")
         else:
