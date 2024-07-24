@@ -1,5 +1,6 @@
 import requests
 import subprocess
+import os
 
 def get_latest_release_exe_link(repo_owner, repo_name):
     url = f"https://api.github.com/repos/{repo_owner}/{repo_name}/releases"
@@ -22,7 +23,15 @@ def get_latest_release_exe_link(repo_owner, repo_name):
                 print(f"Date: {created_at}")
                 print(f"Exe Download Link: {exe_url}")
                 
-                # Executar o wget diretamente
+                # Nome do arquivo .exe que será baixado
+                exe_filename = exe_url.split('/')[-1]
+                
+                # Verificar e remover o arquivo .exe existente
+                if os.path.exists(exe_filename):
+                    print(f"Removing existing file: {exe_filename}")
+                    os.remove(exe_filename)
+                
+                # Executar o wget diretamente para baixar o arquivo
                 comando = ["wget", exe_url]
                 resultado = subprocess.run(comando, capture_output=True, text=True)
                 
